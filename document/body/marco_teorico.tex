@@ -1,4 +1,41 @@
-\subsection{Aplicación Móvil}
-Colocaremos información respecto a varias cosas
+\subsection{Widgets en Flutter}
+El componente principal de toda aplicación de Flutter, son los Widgets. Estas piezas de código funcionan como bloques de construcción para crear interfaces de usuario (UI). Los widgets se organizan en base a una jerarquía, donde cada widget se anida dentro de otro widget, es de esta manera se genera una especie de “árbol de widgets”, donde cada widget puede obtener un contexto de su padre. \parencite{FlutterDocs2025}
 
-Subtítulo numerado 2.1. Citando \parencite{garcia2019}
+Comúnmente se suele relacionar a los widgets con componentes estructurales definidos, como textos, botones, labels o demás. Lo cierto, es que los widgets son una estructura más compleja, con la cual es capaz de mostrar contenido, establecer temas, ajustar layouts, pero sobre todo, manejar interacciones con el usuario. \parencite{Gill2025}
+
+Al momento de crear un widget, se tiene que generar una clase que herede las características del componente “statelessWidget” o “statefulWidget”. En cualquiera de los casos se \textbf{hereda atributo “key”:} Es un identificador único que ayuda a actualizar secciones específicas de la UI.
+
+\subsection{Stateless widgets}
+Es el tipo de widget más simple, pues se lo utiliza cuando el estado del mismo no debe ser mutable, es decir, sus atributos no cambian durante la compilación, por lo que se tendrá el mismo elemento durante toda la aplicación desde que se crea el widget.
+
+Así, este tipo de widget solo implementa el método “build()” que contiene la estructura del widget, por lo que lo convierte en una solución bastante simple, fácil de predecir y optimizada en rendimiento. \parencite{Tllez2024}
+
+
+\subsection{Stateful widgets}
+Este tipo de widget que es capaz de cambiar luego de haber tenido alguna interacción por parte del usuario u otros medios. Para lograr alcanzar esto, se implementa el método “createState()” que sirve para crear un estado del widget declarado. Este estado se lo alacena en una clase separada que hereda la clase “State”. \parencite{Nwogu2023}
+
+Cuando se almacena el estado del widget, se tiene un ciclo de vida, además del “createState()” con el cual se inicializa el widget por primera vez, se compone de los métodos:
+
+\begin{itemize}
+  \item \textbf{initState():} Se llama antes de que sea agregado al árbol de widgets, ocurre la inicialización del widget.
+  \item \textbf{build():} Contiene la estructura del widget, considerando que será llamado cada vez que se tenga que volver a construir el widget cuando se cambia de estado.
+  \item \textbf{setState():} Actualiza el estado del widget, lo que puede involucrar otras variables internas declaradas dentro del estado, es donde se implementa la lógica que posteriormente se verá reflejada en la UI.
+  \item \textbf{dispose():} Este método se llama cuando el widget es eliminado del árbol de widgets, elimina cualquiera de los recursos usados por el widget.
+\end{itemize}
+
+\subsection{Tipos de widgets}
+Existen varios widgets con diferentes propiedades cada uno. Algunos ofrecen mayores capacidades de personalización, por lo que en conjunto pueden lograr armar una UI coherente. \parencite{Pandya2025}
+
+\textbf{Layout:} Define como los widgets se organizan en la pantalla. (\lstinline{Row}, \lstinline{Column}, \lstinline{Stack}, \lstinline{Expanded}, \lstinline{Container})
+
+\textbf{Estructurales:} Proporciona una estructura básica (genérica) para la presentación de la aplicación. (\lstinline{Scaffold}, \lstinline{AppBar}, \lstinline{Drawer})
+
+
+\textbf{Interactivos:} Permiten a las personas interactuar con la aplicación. (\lstinline{ElevatedButton}, \lstinline{TextButton}, \lstinline{IconButton}, \lstinline{TextField}, \lstinline{Checkbox}, \lstinline{Switch}, \lstinline{Radio})
+
+
+\textbf{Widgets espeíficos de plataforma:} Se encuentran los ``Material widgets'' para Android y los ``Cupertino widgets'' para iOS, con la finalidad de tener experiencias más parecidas a como si hubiesen sido hechas nativamente.
+
+
+\textbf{Estilos:} Ayudan a controlar la apariencia del diseño. (\lstinline{Padding}, \lstinline{Align}, \lstinline{Them}, \lstinline{DecoratedBox})
+

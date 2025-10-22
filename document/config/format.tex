@@ -39,6 +39,18 @@
   captionpos=b
 }
 
+% Configuración de lstinline
+\definecolor{inlinebg}{RGB}{240,240,240}       % gris claro
+\definecolor{inlineborder}{RGB}{200,200,200}
+
+\let\oldlstinline\lstinline
+\renewcommand{\lstinline}[1]{%
+  \colorbox{inlinebg!80!white}{%
+    \setlength{\fboxsep}{1pt}%
+    \textcolor{black}{\ttfamily\fontsize{11}{13}\selectfont #1}%
+  }%
+}
+
 % =====================
 % --- Bibliografía ---
 % =====================
