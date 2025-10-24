@@ -39,3 +39,27 @@ Existen varios widgets con diferentes propiedades cada uno. Algunos ofrecen mayo
 
 \textbf{Estilos:} Ayudan a controlar la apariencia del diseño. (\lstinline{Padding}, \lstinline{Align}, \lstinline{Them}, \lstinline{DecoratedBox})
 
+\subsection{Patrón MVC}
+
+El patrón de arquitectura Modelo-Vista-Controlador, mejor conocido como MVC, es uno de los más utilizados dentro del desarrollo de software, debido a su gran simplicidad que permite organizar un proyecto de tal manera en la que pueda ser escalable y mantenible \parencite{Alvarez2023}. Este patrón se compone de 3 capas:
+
+\textbf{Modelo:} Se encarga de trabajar directamente con los datos que se consumen en una aplicación. Generalmente se accede a una base datos, consumiendo sus recursos y realizando operaciones CRUD. De esta manera proporciona interfaces de programación para acceder a los recursos y poder manipularlos desde otras partes del código.
+
+\textbf{Vista:} Muestra el código referente a la interfaz de usuario y todo lo referente a la usabilidad y experiencia de usuario. Es la parte de la personalización de la aplicación, siendo la encargada de actualizar estados y mostrar datos de manera atractiva en la pantalla. En otros casos también se encarga de manejar las rutas y la navegación entre pantallas, estableciendo optimizaciones necesarias para el mejorar el rendimiento.
+
+\textbf{Controlador:} Su principal funcionalidad es la de servir como un enlace entre la vista y el modelo. Lo más común es que la vista llame al controlador y este controlador llame a alguna operación del modelo para obtener datos. Además, el controlador es el encargado de contener la lógica de negocio, por lo que puede realizar ciertas manipulaciones a los datos traídos por el modelo para llegar a hacer alguna acción en concreto.
+
+\subsection{Atomic Design}
+Es una metodología de diseño que parte de la idea simple de como se organizan los seres vivos. Su filosofía se basa en ir creando componentes reutilizables y personalizables para agilizar el desarrollo y favorecer la reutilización de componentes \parencite{Garca2024}. Todo esto siguiendo una estructura de diseño anteriormente preestablecida, como paletas de color, tamaño de texto, fuente y demás decisiones de diseño para aumentar la experiencia de usuario.
+
+Sus fundamentos se basan en las siguientes estructuras:
+
+\textbf{Átomos:} Son unidades básicas de diseño, tratándose de elementos sencillos como iconos, botones, inputs o etiquetas. Se llega a obtener un átomo cuando ser reconoce que no se lo puede descomponen en partes más pequeñas que esta.
+
+\textbf{Moléculas:} Se obtienen al combinar distintos átomos, aunque siguen siendo de nivel elemental, puesto que puede ser reutilizable en varias partes de la aplicación. Un ejemplo podría ser composiciones definidas para una barra de búsqueda.
+
+\textbf{Organismos:} Son componentes más grandes y complejos, puesto que incorporan varias moléculas, generalmente ya se tratan de piezas reconocibles dentro de la interfaz. Ejemplos pueden ser una barra de navegación o una tarjeta de un producto.
+
+\textbf{Plantillas:} En este punto ya se define la estructura de una página o vista. Se encarga de organizar varios elementos a la vez para definir la disposición de los elementos en la pantalla.
+
+\textbf{Páginas:} Esta es el nivel final, donde toma como base una plantilla y luego se la llena con contenido real para así presentarla al usuario.
