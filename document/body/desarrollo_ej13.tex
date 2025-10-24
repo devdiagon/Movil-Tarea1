@@ -20,101 +20,35 @@ Dentro de cada carpeta se añadieron los archivos correspondientes:
 \textbf{Paso 3: Desarrollo de los componentes (modelo $\rightarrow$ controlador $\rightarrow$ vista)}  
 
 \textbf{aniosmodel.dart:}  
-En este archivo se implementó la lógica para determinar si un año es bisiesto. Se creó la función \texttt{esBisiesto}, que recibe como parámetro un número entero correspondiente al año y devuelve un valor booleano (\texttt{true} o \texttt{false}) según cumpla las condiciones del calendario para años bisiestos.  
+En este archivo, se programó la lógica para verificar y validar si un año es bisiesto. Se programó la función \texttt{esBisiesto}, que toma un número entero como el año y te devuelve un booleano \texttt{true} o \texttt{false} dependiendo de si cumple con las reglas del calendario para años bisiestos.
 
-El método sigue la regla estándar:  
-\begin{itemize}
-    \item Un año no divisible entre 4 no es bisiesto.
-    \item Un año divisible entre 4 pero no entre 100 sí es bisiesto.
-    \item Un año divisible entre 400 también es bisiesto.
-\end{itemize}
+Las diferentes reglas son: si un año no se divide por 4, no es bisiesto, si se divide por 4 pero no por 100, entonces sí lo es, y si se divide por 400, también cuenta como bisiesto.
 
-De esta forma, se encapsula toda la lógica del cálculo en el modelo, separándola de la interfaz y del control.
+De esta forma, toda esa lógica queda bien guardada en el modelo, apartada de la interfaz y del controlador.
 
 \textbf{anioscontroller.dart:}  
-En este archivo se desarrolló la lógica de control que gestiona la interacción entre el modelo y la vista. La clase \texttt{AnioController} se encarga de recibir el dato ingresado por el usuario, validarlo y devolver un mensaje adecuado según corresponda.  
+La clase \texttt{AnioController} es la que se pone a manejar lo que el usuario escribe: lo recibe, le hace todas las validaciones necesarias y manda un mensaje claro según lo que encontró.
 
-El método \texttt{procesar} realiza varias funciones:  
+El método \texttt{procesar} es donde ocurre lo más importante: primero revisa que el campo no esté vacío, luego confirma que sea un número positivo válido y que no supere el límite máximo que tenemos definido (\texttt{maxAnio}). Si todo está bien, consulta al \texttt{AnioModel} usando su método \texttt{esBisiesto} para determinar si el año es bisiesto o no, y por último devuelve un mensaje claro al usuario con el resultado o, si hubo problemas, con el error correspondiente.
 
-\begin{center}
-\begin{lstlisting}
-class AnioModel {
-  //Condicion si es bisiesto
-  static bool esBisiesto(int anio){
-    if (anio % 4 != 0){
-      return false;
-    } else if (anio % 100 != 0){
-      return true;
-    } else if (anio % 400 == 0){
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
-\end{lstlisting}
-\end{center}
-
-\begin{itemize}
-    \item Verifica que el campo no esté vacío.
-    \item Comprueba que el valor ingresado sea un número positivo válido.
-    \item Controla que el año no exceda un límite máximo definido (\texttt{maxAnio}).
-    \item Llama al método \texttt{esBisiesto} del modelo (\texttt{AnioModel}) para determinar si el año es bisiesto o no.
-    \item Devuelve un mensaje claro para el usuario indicando si el año es bisiesto o no, o si hubo algún error en la entrada.
-\end{itemize}
-
-De esta manera, el controlador centraliza la lógica de validación y procesamiento, manteniendo la separación entre los datos (modelo) y la presentación (vista) y asegurando que la interfaz reciba únicamente la información ya procesada y lista para mostrar.
+De esta forma, el controlador concentra toda la validación y el procesamiento, preservando la división entre los datos en el modelo y la presentación en la vista, y garantizando que la interfaz solo reciba información ya lista y procesada para mostrar.
 
 \textbf{aniosview.dart:}  
-En este archivo se construyó la interfaz de usuario de la aplicación, combinando los Widgets necesarios para que el usuario pueda interactuar y verificar si un año es bisiesto.
+En este archivo se diseñó la interfaz de usuario de la aplicación, reuniendo los Widgets necesarios para que el usuario pueda ingresar un año y verificar si es bisiesto de manera sencilla.
 
-\begin{center}
-\begin{lstlisting}
-class AnioController {
-  static const int maxAnio = 9999;
+Se organizaron los componentes siguiendo una estructura reutilizable:
 
-  String procesar(String anioStr) {
-    if (anioStr.isEmpty) {
-      return 'Ingrese un año';
-    }
+\textbf{Átomos}: elementos básicos como \texttt{LabelText}, \texttt{ResultText}, \texttt{PrimaryButton} y \texttt{NumberField}, que definen estilos y comportamientos individuales.
 
-    final anio = int.tryParse(anioStr);
-    if (anio == null || anio <= 0) {
-      return 'Ingrese un número válido';
-    }
+\textbf{Moléculas}: combinaciones de átomos, por ejemplo \texttt{AnioInput}, que integra el campo de texto con la validación necesaria para ingresar el año correctamente.
 
-    if (anio > maxAnio) {
-      return 'Ingrese un año menor o igual a $maxAnio';
-    }
+\textbf{Organismos}: \texttt{AnioCard}, que agrupa todos los elementos anteriores: etiquetas, inputs, botones y resultados en una sección completa que facilita la interacción del usuario.
 
-    final esBisiesto = AnioModel.esBisiesto(anio);
-    if (esBisiesto) {
-      return 'El año $anio es bisiesto';
-    } else {
-      return 'El año $anio no es bisiesto';
-    }
-  }
-}
-\end{lstlisting}
-\end{center}
-
-Se implementaron distintos componentes reutilizables:  
-\begin{itemize}
-    \item \textbf{Átomos:} elementos básicos como \texttt{LabelText}, \texttt{ResultText}, \texttt{PrimaryButton} y \texttt{NumberField}. Estos definen estilos y comportamientos individuales.
-    \item \textbf{Moléculas:} combinaciones de átomos como \texttt{AnioInput}, que integra un campo de texto para ingresar el año con su formato y validación de entrada.
-    \item \textbf{Organismos:} \texttt{AnioCard}, que reúne todos los elementos anteriores (etiqueta, input, botón y resultado) en una sección cohesiva que permite la interacción completa.
-\end{itemize}
-
-El componente \texttt{AnioPage} actúa como la página principal, donde se inserta \texttt{AnioCard} dentro de un \texttt{Scaffold} para presentar la interfaz completa.  
+Por ultimo, \texttt{AnioPage} funciona como la página principal, colocando \texttt{AnioCard} dentro de un \texttt{Scaffold} para mostrar la interfaz completa y lista para usar.
 
 \textbf{Paso 4: Integración en la aplicación}  
-En el archivo \texttt{Home} se configura la pantalla principal de la aplicación y se gestionan las diferentes secciones mediante un \texttt{NavigationBar} inferior.  
+La pantalla principal de la aplicación se gestiona desde \texttt{Home}, donde las distintas secciones se organizan a través de una barra de navegación en la parte inferior.
 
-Para la funcionalidad de verificación de años bisiestos:  
-\begin{itemize}
-    \item Se importa la vista \texttt{AnioPage} para poder mostrarla dentro del contenedor principal de la app.
-    \item La página se agrega a la lista de vistas que se despliegan dinámicamente en el \texttt{body} del \texttt{Scaffold}.
-    \item El índice \texttt{currentPageIndex} determina qué página se muestra; cuando el usuario selecciona la opción correspondiente a “Bisiesto” en la barra de navegación, se instancia y se despliega \texttt{AnioPage}.
-\end{itemize}
+Para la función de verificar años bisiestos, simplemente se importa \texttt{AnioPage} y se añade a la lista de vistas que se muestran en el \texttt{body} del \texttt{Scaffold}. El índice \texttt{currentPageIndex} se encarga de controlar qué página se despliega; así, al seleccionar “Bisiesto” en el menú, la página se carga y se muestra automáticamente.
 
-De esta manera, \texttt{Home} permite integrar y mostrar la página de años bisiestos de forma organizada.
+De este modo, \texttt{Home} integra la verificación de años bisiestos de forma clara y ordenada dentro de la estructura general de la app.

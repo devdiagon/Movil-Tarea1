@@ -1,2 +1,86 @@
-Implementación de código 11
+\textbf{Paso 1.- Estructuración según el patrón MVC:}
+Para comenzar con el desarrollo de los ejercicios se decidió en un inicio aplicar el patrón Modelo-Vista-Controlador (MVC) de esta forma se estructuró el código del sistema que se basa en un POS o punto de venta en español, de esta forma se logra asegurar que cada parte o módulo del programa tenga responsabilidades claras y bien definidas. Para el desarrollo de la app con el patrón, se crearon tres carpetas principales dentro del proyecto:
+\begin{itemize}
+    \item model
+    \item view
+    \item controller
+\end{itemize}
 
+\textbf{Paso 2: Creación de archivos .dart:}
+Para el desarrollo de cada componente dentro del patrón MVC implementado, se crearon diferentes archivos donde se desarrollaron diferentes clases para resolver el problema planteado: 
+
+\begin{itemize}
+    \item \textbf{Controller:} 
+        \begin{itemize}
+            \item invoiceController.dart
+            \item posController.dart
+        \end{itemize}
+    \item \textbf{Model:} 
+        \begin{itemize}
+            \item productModel.dart
+            \item invoiceModel.dart
+            \item posModel.dart
+        \end{itemize}
+    \item \textbf{View:} 
+        \begin{itemize}
+            \item invoiceView.dart
+            \item invoiceHistoryView.dart
+            \item posView.dart
+            \item \textbf{Components (carpeta):}
+                \begin{itemize}
+                    \item productsDropdown.dart
+                \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+\textbf{Paso 3: Desarrollo de los componentes (modelo $\rightarrow$ controlador $\rightarrow$ vista)}  
+
+\textbf{Modelos:}  
+\begin{itemize}
+    \item \textbf{productModel.dart}: Dentro de este archivo se colocó la definición de la clase \texttt{Product}, que básicamente es el modelo que va a representar un producto dentro de la app. Dentro de la clase se tienen los atributos: \texttt{id}, \texttt{name} y \texttt{price} que se establecen como valores fijos que no van a cambiar durante la ejecución de la app, mientras que \texttt{quantity} es una variable que sí puede cambiar o modificarse, aunque comienza con un valor inicial establecido por defecto de 1.
+
+    Después se define el constructor en el cual se asegura que al momento de crear un producto, se proporcionen todos los datos esenciales. Además también se crearon los métodos \texttt{increaseQuantity} y \texttt{decreaseQuantity} que de forma resumida lo que hacen es ajustar la cantidad, para evitar que llegue a ser negativa o valores que no tienen sentido. Se puede decir que, esta clase establece la estructura principal para gestionar los productos dentro de la app.
+    
+    \item \textbf{invoiceModel.dart}: Dentro de este archivo .dart se define la clase \texttt{InvoiceModel}, esta se va a encarga de controlar los productos dentro de una factura. Para lograr esto dentro a nivel de código se importa \texttt{product\_model.dart} y se utiliza la clase \texttt{Product}, algo importante es que aquí se almacenan los elementos en un \texttt{Set<Product>} para de esta forma poder evitar los duplicados.
+
+    Por otra parte dentro del código el constructor se encarga de recibir un conjunto de productos cuando se crea una factura. También el método \texttt{addProduct(Product product)} realiza una verificación de si el producto ya se encuentra en la lista comparando su identificador único o \texttt{id}, si lo encuentra, lo que realiza es que aumenta su cantidad, y si no lo encuentra, lo agrega al conjunto. Por ultimo la función \texttt{decreaseProductQuantity(String productId)} busca el producto por su identificador único y se encarga de disminuir su cantidad, también esta función verifica que si llega a cero el producto se elimine.
+    
+    \item \textbf{posModel.dart}: En este archivo se define la clase \texttt{PosModel}, que funciona como la base principal del punto de venta dentro de la app. De forma general permite gestionar todas las facturas registradas, en esta se importa \texttt{invoice\_model.dart} y también se utiliza la clase \texttt{InvoiceModel}.
+
+    La clase permite tener una lista de facturas a través de una lista: \texttt{List<InvoiceModel> invoices}, esta permite almacenar diferentes movimiento o transacciones en la memoria. El constructor recibe la lista de facturas al crear la instancia, también el método \texttt{addInvoice(InvoiceModel invoice)} hace que sea más fácil agregar nuevas facturas. En conjunto, toda la clase permite manejar las operaciones de venta y mantener un registro más organizado de todas las facturas generadas en la app.
+\end{itemize}
+
+\textbf{Controladores:}  
+\begin{itemize}
+    \item \textbf{invoiceController.dart}: Dentro del archivo se define la clase \texttt{InvoiceController}, la cual maneja toda la lógica que está relacionada con las facturas. Para lograr esto, la clase importa \texttt{invoice\_model.dart} y \texttt{product\_model.dart}, lo que le permite manejar y manipular los productos y las facturas.
+
+    También la clase mantiene una instancia estática de \texttt{InvoiceModel} que guarda los productos actuales. Su método \texttt{agregarProducto} transforma el precio que se recibe como texto a un valor numérico solo si es válido y crea un \texttt{Product} que se añade a la nueva factura, de lo contrario se genera una excepción. También permite disminuir la cantidad de un producto, obtener la lista de productos que no puede cambiar, generar una copia del modelo de factura y reiniciar los productos.
+    
+    
+    \item \textbf{posController.dart}: En este archivo se define la clase \texttt{PosController}, que trabaja como el controlador del punto de venta y se ocupa de intervenir entre la lógica del sistema y los modelos de datos. Para lograrlo, importa \texttt{invoice\_model.dart} y \texttt{pos\_model.dart}, para tener acceso a las clases \texttt{InvoiceModel} y \texttt{PosModel}.
+
+    La clase conserva una instancia estática de \texttt{PosModel} que se encarga de guardar todas las facturas generadas. Su método \texttt{addInvoice(InvoiceModel invoice)} permite verificar que la factura tenga productos antes de añadirla, pero si está vacía, no se ejecuta. Por otra parte \texttt{previousInvoices} devuelve una lista que no puede modificar facturas previas, evitando que puedan existir modificaciones externas, y \texttt{resetInvoices()} permite vaciar o limpiar todas las facturas que se encuentren almacenadas.
+\end{itemize}
+
+
+\textbf{Vista:}  
+\begin{itemize}
+    \item \textbf{posView.dart}: Este archivo define la clase \texttt{PosView}, la cual representa la interfaz principal del punto de venta dentro de la app, que está construida con Flutter. Esta vista integra los controladores \texttt{InvoiceController} y \texttt{PosController} para manipular los productos y facturas, permite agregar productos, ver la factura actual y acceder al historial de transacciones.
+    
+    La interfaz se encuentra estructurada con un \texttt{Scaffold} que integra la vista de la factura y varios botones para diferentes acciones como cerrar caja, agregar productos y generar la factura. Cada botón que genera una interacción actualiza el estado de la app, al facturar, se muestra un mensaje de confirmación para el usuario.
+
+    \item \textbf{invoiceView.dart}:  Este archivo define la clase \texttt{InvoiceView}, la cual permite construir la interfaz de la factura dentro de la app. La clase recibe un \texttt{InvoiceController} que permite manejar la lógica de los productos y un número de factura que se muestra en la interfaz.
+
+    Esta vista da la posibilidad de elegir productos desde un \texttt{ProductsDropdown} y agregarlos a la factura con el método \texttt{\_onProductSelected}, y actualiza la lista en tiempo real. Los productos que se añaden se muestran en un \texttt{ListView}, donde cada producto muestra el nombre, el precio y la cantidad, y también incluye botones para incrementar o disminuir la cantidad de forma dinámica.
+
+    \item \textbf{invoicehistoryView.dart}: Este archivo crea la clase \texttt{InvoiceHistoryView}, que básicamente maneja la visualización del historial de facturas y el total de ventas diarias. Toma una lista de \texttt{InvoiceModel}, junto con callbacks para volver a la vista principal o arrancar una nueva caja. El total se calcula solo sumando los precios multiplicados por las cantidades de todos los productos en las facturas, y lo muestra arriba, al lado del número de facturas registradas.
+
+    Cada factura aparece en un \texttt{ExpansionTile}, donde se listan los productos con sus cantidades y subtotales, y abajo hay botones para navegar o abrir una nueva caja. Así, la clase une los datos de las facturas con una interfaz clara y práctica, haciendo que el cierre de caja sea algo simple y bien ordenado.
+
+    \item \textbf{productsDropdown.dart}: Este archivo define la clase \texttt{ProductsDropdown}, que básicamente, es un menú desplegable que nos permite elegir productos de una lista fija. Cada opción del menú es un \texttt{DropdownMenuItem}, y el componente se encarga de recordar qué producto tenemos seleccionado en cada momento.
+
+    En cuanto el usuario modifica la selección, el componente restablece su estado interno y avisa al controlador por medio del callback \texttt{onChanged}. Esta conexión directa hace que la elección del usuario se integre de forma inmediata con la lógica de la aplicación.
+\end{itemize}
+
+\textbf{Paso 4: Integración en la aplicación}  
+Para mostrar la interfaz del punto de venta, \texttt{Home.dart} importa \texttt{PosView}. Dentro del método \texttt{build}, se agrega \texttt{PosView()} a la lista de widgets que representan las distintas secciones de la aplicación. Según el índice actual de la \texttt{NavigationBar}, se decide qué sección mostrar, de modo que al iniciar la app o al navegar desde la barra inferior, la vista del punto de venta se muestre directamente en pantalla.

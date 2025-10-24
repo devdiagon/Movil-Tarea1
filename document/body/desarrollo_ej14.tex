@@ -1,1 +1,55 @@
-Contenido desde otro archivo
+\textbf{Paso 1: Estructuración según el patrón MVC}  
+Para estructurar el módulo de números perfectos, se siguió nuevamente el patrón Modelo-Vista-Controlador (MVC). Se crearon archivos separados para el modelo (PerfectNumber), el controlador (PerfectController) y la vista (PerfectPage), lo que mantiene la lógica de cálculo, la gestión de datos y la interfaz de usuario bien diferenciadas y fáciles de mantener dentro del proyecto.
+Se crearon tres carpetas principales dentro del proyecto:  
+\begin{itemize}
+    \item model
+    \item view
+    \item controller
+\end{itemize}
+
+\textbf{Paso 2: Creación de archivos .dart para cada componente}  
+Dentro de cada carpeta se añadieron los archivos correspondientes en el siguiente orden de desarrollo:  
+
+\begin{itemize}
+    \item \textbf{Model:} 
+        \begin{itemize}
+            \item perfectModel.dart
+        \end{itemize}
+    \item \textbf{Controller:} 
+        \begin{itemize}
+            \item perfectController.dart
+        \end{itemize}
+    \item \textbf{View:} 
+        \begin{itemize}
+            \item perfectView.dart
+        \end{itemize}
+\end{itemize}
+
+\textbf{Paso 3: Desarrollo de los componentes (modelo $\rightarrow$ controlador $\rightarrow$ vista)}  
+
+\textbf{Modelos:}  
+
+\begin{itemize}
+    \item \textbf{perfectModel.dart}: La clase \texttt{PerfectNumber} básicamente se dedica a revisar si un número es perfecto, que se base en la programación donde si sumas todos sus divisores (excluyendo el propio número) el resultado es exactamente el mismo número. Al crear una instancia con un número, la clase automáticamente calcula sus divisores y determina si cumple o no con esta condición.
+
+    Dentro de la clase, la lógica se apoya principalmente en dos métodos: \texttt{\_calculateDivisors}, que identifica y ordena todos los divisores menores que el número, y \texttt{\_checkIfPerfect}, que suma esos divisores para confirmar si el número es perfecto. Además, incluye métodos adicionales que hacen posible alcanzar la suma de los divisores y presentarlos como texto, lo que sirve mucho tanto para mostrarlos al usuario como para aprovechar los datos en otras partes de la app.
+\end{itemize}
+
+\textbf{Controladores:}  
+
+\begin{itemize}
+    \item \textbf{perfectController.dart}: La clase \texttt{PerfectController} gestiona toda la lógica detrás de la verificación de números perfectos. Para ello, importa la clase \texttt{PerfectNumber} y proporciona el método \texttt{checkNumber}, que trabaja con un número, si es mayor que cero, crea una instancia de \texttt{PerfectNumber} para comprobar sus divisores y comprobar si verdaderamente es un número perfecto. De esta manera, el controlador unifica tanto la validación como la creación del modelo, evitando el manejo de información errónea y manteniendo la comunicación clara y ordenada entre la lógica del programa y la interfaz de usuario.
+\end{itemize}
+
+\textbf{Vista:}  
+
+\begin{itemize}
+    \item \textbf{perfectView.dart}: En este archivo se define la interfaz en Flutter que permite comprobar si un número es perfecto. Para hacerlo, se utiliza un \texttt{NumberField}, donde el usuario ingresa el número, un \texttt{PrimaryButton} que ejecuta la verificación y el componente \texttt{PerfectCard}, que actúa como el enlace entre lo que el usuario introduce y la lógica del \texttt{PerfectController}, encargado de calcular los divisores y determinar si el número cumple la condición.
+    
+    La página principal, \texttt{PerfectPage}, está construida sobre un \texttt{Scaffold} que integra esta tarjeta de verificación. Lo interesante es que los resultados se actualizan al instante: muestra si el número es perfecto y también la suma de sus divisores. En esencia, esta pantalla conecta de forma directa la interfaz con la lógica del controlador, logrando que la interacción sea fluida y los cálculos se reflejen en tiempo real.
+\end{itemize}
+
+\textbf{Paso 4: Integración en la aplicación}  
+Para integrar la funcionalidad de números perfectos, lo que hicimos fue importar \texttt{PerfectPage} en el \texttt{Home.dart} y agregarla como una opción más en la lista de secciones.
+
+Así, cuando el usuario elige esta opción en la barra de navegación, la página carga automáticamente y le permite ingresar un número para verificar si es perfecto, mostrando también sus divisores. De esta forma, queda totalmente integrado en la navegación principal de la aplicación.
