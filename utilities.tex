@@ -3,20 +3,34 @@
 % things used for the docs
 %============================================%
 
+%--------------- Common Utils ---------------%
+“”                % Double Quotes for text rendered in PDF 
+\textit {text}    % Italic text
+\textbf{text}     % Bold text
+\$                % Display dolar symbol
+\begin{itemize}   % List of square dots
+    \item item1
+    
+    \item item2
+    
+    \item item3
+\end{itemize}
+
 %-------------- Adding an image --------------%
+% define width and heigh with apropiate values
 % with a label ---> Aparece con pie de página
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagen1.png}
+    \includegraphics[width=0.6 \textwidth, height=8cm, keepaspectratio]{imagen1.png}
     \caption{Descripción de la ilustración}
-    \label{fig:ulustracion1}
+    \label{fig:reference}
 \end{figure}
 
 
 % without a label ---> No aparece en el índice de figuras
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{imagen1.png}
+    \includegraphics[width=0.6 \textwidth, height=8cm, keepaspectratio]{imagen1.png}
 \end{figure}
 
 
