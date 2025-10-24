@@ -1,1 +1,64 @@
-Desarrollo del ejercicio 15
+
+El sistema plantea una estructura de MVC(Modelo-Vista-Controlador). Para poder comprender esto de mejor manera analizaremos cada uno de sus componentes por separado.
+
+\textbf{Modelo}
+
+\begin{itemize}
+    \item \textbf{WeightMeasurementModel}
+\end{itemize}
+
+\begin{center}
+\begin{lstlisting}
+class WeightMeasurementModel {
+  int id;
+  DateTime date;
+  List<double> weights;
+  double averageWeight;
+  double? difference;
+  String? state;
+}
+\end{lstlisting}
+\end{center}
+
+Es la instancia de cada medición de peso, en esta almacenamos los 10 valores de las balanzas, su promedio, la diferencia con el último peso registrado o si es la primera medición con el peso inicial ingresado por el usuario. Por último asignamos un valor al estado para saber si en esa medición subió o bajó de peso.
+
+\begin{itemize}
+    \item \textbf{PersonModel}
+\end{itemize}
+
+\begin{center}
+\begin{lstlisting}
+class WeightMeasurementModel {
+  int id;
+  String name;
+  double initialWeight;
+  List<WeightMeasurementModel> measurements;
+}
+\end{lstlisting}
+\end{center}
+
+Es la instancia de cada persona que va a pesarse, a esta se le asigna un identificador único, un nombre y una lista de mediciones, de esta manera asociamos las mediciones a cada persona y podremos acceder a ellos para usarlos en la vista.
+
+Adicional se calcula el promedio. métodos de ingreso de personas dependiendo si es su primera medición y sirve para poder extraer los datos y mostrarlos en la ui.
+
+\textbf{Controlador}
+
+\begin{center}
+\begin{lstlisting}
+class PersonController with ChangeNotifier{
+  List<PersonModel> _persons = [];
+  int _nextPersonId = 1;
+\end{lstlisting}
+\end{center}
+
+Es el controlador central, este usa change Notifier para poder recargar la ui (especialmente las listas) después de realizar un ingreso de una nueva persona o medida, este controlador maneja la lista central de personas que es la que manejara las nuevas instancias. En esta clase también tenemos las funciones que controlan inserciones y formatos de visualización.
+
+El controlador actúa como una capa intermedia entre los modelos y la interfaz de usuario, permitiendo que los organismos y páginas se mantengan enfocados únicamente en la presentación, sin preocuparse por la gestión del estado o la persistencia temporal de los datos.
+
+\textbf{Flujo General}
+
+El flujo principal inicia en la página DietPage, que representa la pantalla de inicio del sistema. En ella, el usuario encuentra un formulario para registrar una nueva persona y una lista con las personas ya registradas.
+
+El registro de una persona se realiza a través del PersonFormOrganism, donde el usuario ingresa el nombre y el peso inicial. Tras validar el formulario, se invoca al método addPerson del controlador, que crea y almacena una nueva instancia de PersonModel. Luego, el formulario se limpia y la interfaz se actualiza para reflejar el nuevo registro.
+
+La lista de personas registradas se muestra mediante el PersonListOrganism, donde cada persona aparece dentro de una tarjeta (Card) que incluye su nombre y un distintivo de estado (badge) que indica si su peso ha aumentado o disminuido. Al seleccionar una persona, se navega a la vista de detalle (PersonDetailOrganism), donde se pueden consultar las mediciones históricas y registrar nuevas entradas.
